@@ -1,0 +1,9 @@
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\obj\Debug\UnityVS.ProjectTinge.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\obj\Debug\Assembly-CSharp.dll
+C:\Users\MIYA\Desktop\ProjectTinge\ProjectTinge\obj\Debug\Assembly-CSharp.pdb
