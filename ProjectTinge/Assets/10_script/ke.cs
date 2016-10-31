@@ -18,9 +18,9 @@ public class ke : MonoBehaviour
 		//var y = pos.y;
 		//Debug.Log(y);
 
-		rigidbody2D.velocity = transform.up.normalized * speed;
+		GetComponent<Rigidbody2D>().velocity = transform.up.normalized * speed;
 		Invoke("Stop",0.3f);
-		Debug.Log(rigidbody2D.velocity.y);
+		Debug.Log(GetComponent<Rigidbody2D>().velocity.y);
 		/*if(y <= -2.0f){
 		*	rigidbody2D.velocity = new Vector2(0, 0);
 		*}
@@ -28,14 +28,14 @@ public class ke : MonoBehaviour
 	}
 
 	void Stop(){
-		rigidbody2D.velocity = new Vector2(0, 0);
-		Debug.Log(rigidbody2D.velocity.y);
+		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+		Debug.Log(GetComponent<Rigidbody2D>().velocity.y);
 	}
 
 	//コライダーとぶつかったとき
 	void OnTriggerStay2D (Collider2D collider) {
 		
-		if (rigidbody2D.velocity.y == 0){
+		if (GetComponent<Rigidbody2D>().velocity.y == 0){
 			if(collider.gameObject.tag == "floor"){
 				// 当たっている床を取得
 				yuka now_floor = collider.gameObject.GetComponent<yuka>();
@@ -43,7 +43,7 @@ public class ke : MonoBehaviour
 					manager.Score_calk();
 					now_floor.hit--;		// 床のhit回数マイナス
 				}
-				Destroy(rigidbody2D);
+				Destroy(GetComponent<Rigidbody2D>());
 			}
 		}
 	}	

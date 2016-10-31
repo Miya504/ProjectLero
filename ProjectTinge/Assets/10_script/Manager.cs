@@ -145,7 +145,7 @@ public class Manager : MonoBehaviour {
 	//	引数	:	N/A
 	//--------------------------------------
 	public void Debug_draw() {
-		GameObject.Find("Hate").guiText.text = "" + this.hate;
-		GameObject.Find("Score").guiText.text = "" + this.score;
+		GameObject.Find("Hate").GetComponent<GUIText>().text = "" + this.hate;
+		GameObject.Find("Score").GetComponent<GUIText>().text = "" + this.score;
 	}
 }

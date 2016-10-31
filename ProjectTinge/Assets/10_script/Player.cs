@@ -110,11 +110,11 @@ public class Player : MonoBehaviour
 					h_flag2 = false;
 				}	
 				stop_timer += time;
-				GameObject.Find("test5").guiText.text = "ヒットバック";
+				GameObject.Find("test5").GetComponent<GUIText>().text = "ヒットバック";
 			//停止時間	
 			}else if(stop_timer <  set_stop_timer){
 				//移動停止
-				GameObject.Find("test5").guiText.text = "停止時間";
+				GameObject.Find("test5").GetComponent<GUIText>().text = "停止時間";
 				StopMove();
 				stop_timer += time;
 			//無敵時間
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
 				}
 				
 				stop_timer += time;
-				GameObject.Find("test5").guiText.text = "無敵時間";
+				GameObject.Find("test5").GetComponent<GUIText>().text = "無敵時間";
 				
 				
 			//無敵終了
@@ -134,8 +134,8 @@ public class Player : MonoBehaviour
 				h_flag = false;
 				inv_flag = false;
 				stop_timer = 0.0f;
-				GameObject.Find("test5").guiText.text = "通常";
-				gameObject.renderer.enabled = true;
+				GameObject.Find("test5").GetComponent<GUIText>().text = "通常";
+				gameObject.GetComponent<Renderer>().enabled = true;
 			}
 		}
 
@@ -215,12 +215,12 @@ public class Player : MonoBehaviour
 
 		if (Input.GetMouseButtonDown(0)) {		// 左クリックが押されたときの処理
 			mouse_pos = (Vector2)Input.mousePosition;// マウスの座標取得
-			GameObject.Find("test2").guiText.text = "マウス開始店" + mouse_pos;
+			GameObject.Find("test2").GetComponent<GUIText>().text = "マウス開始店" + mouse_pos;
 		}else if (Input.GetMouseButton(0)) {	// 左クリックされているときの処理
 
 			direction = ((Vector2)Input.mousePosition - mouse_pos) * 0.1f;
-			GameObject.Find("test3").guiText.text = "マウス現在点" + Input.mousePosition;
-			GameObject.Find("test3").guiText.text = "差" + direction;
+			GameObject.Find("test3").GetComponent<GUIText>().text = "マウス現在点" + Input.mousePosition;
+			GameObject.Find("test3").GetComponent<GUIText>().text = "差" + direction;
 
 
 			// x+y=3 以下の時歩く処理
@@ -263,7 +263,7 @@ public class Player : MonoBehaviour
 
 
 			//Debug.Log("移動速度"+direction);
-			GameObject.Find("test").guiText.text = "速度"+ vec;
+			GameObject.Find("test").GetComponent<GUIText>().text = "速度"+ vec;
 			timer_flg = true;
 		} else if (Input.GetMouseButtonUp(0)) {
 			timer_flg = false;
@@ -271,7 +271,7 @@ public class Player : MonoBehaviour
 		} else { 
 			hate_timer = 0.0f;
 		}
-		rigidbody2D.velocity = vec;
+		GetComponent<Rigidbody2D>().velocity = vec;
 		//Debug.Log(rigidbody2D.velocity);
 
 	}
@@ -302,7 +302,7 @@ public class Player : MonoBehaviour
 			vec.y = 1 * i;
 		}
 
-		rigidbody2D.velocity = vec;
+		GetComponent<Rigidbody2D>().velocity = vec;
 	}
 
 //-------------------------------
@@ -314,7 +314,7 @@ public class Player : MonoBehaviour
 	void StopMove() {
 		Vector2 vec = new Vector2(0, 0);
 
-		rigidbody2D.velocity = vec;
+		GetComponent<Rigidbody2D>().velocity = vec;
 	}
 
 //-------------------------------
@@ -328,7 +328,7 @@ public class Player : MonoBehaviour
 			interval_time += Time.deltaTime;
 			if (interval_time >= 0.1f) {
 				interval_time = 0.0f;
-				gameObject.renderer.enabled = !gameObject.renderer.enabled;
+				gameObject.GetComponent<Renderer>().enabled = !gameObject.GetComponent<Renderer>().enabled;
 			}
 		}
 	}
