@@ -169,22 +169,22 @@ public class Player : MonoBehaviour
 
 		// 壁のあたり判定処理
 		} else if (collider.gameObject.tag == "Wall") {
-			if (collider.gameObject.name == "Wall_R") {
-				Vector2 pos = transform.position;
-				transform.position = new Vector2(pos.x - 0.5f, pos.y);
+			//if (collider.gameObject.name == "Wall_R") {
+			//	Vector2 pos = transform.position;
+			//	transform.position = new Vector2(pos.x - 0.5f, pos.y);
 
-			} else if (collider.gameObject.name == "Wall_L"){
-				Vector2 pos = transform.position;
-				transform.position = new Vector2(pos.x + 0.5f, pos.y);
+			//} else if (collider.gameObject.name == "Wall_L"){
+			//	Vector2 pos = transform.position;
+			//	transform.position = new Vector2(pos.x + 0.5f, pos.y);
 			
-			} else if (collider.gameObject.name == "Wall_U"){
-				Vector2 pos = transform.position;
-				transform.position = new Vector2(pos.x, pos.y - 0.5f);
+			//} else if (collider.gameObject.name == "Wall_U"){
+			//	Vector2 pos = transform.position;
+			//	transform.position = new Vector2(pos.x, pos.y - 0.5f);
 
-			} else if (collider.gameObject.name == "Wall_D") { 
-				Vector2 pos = transform.position;
-				transform.position = new Vector2(pos.x, pos.y + 0.5f);			
-			}
+			//} else if (collider.gameObject.name == "Wall_D") { 
+			//	Vector2 pos = transform.position;
+			//	transform.position = new Vector2(pos.x, pos.y + 0.5f);			
+			//}
 
 		//トラップの当たり判定処理
 		} else if(collider.gameObject.tag == "Trap"){
