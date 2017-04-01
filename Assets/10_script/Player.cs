@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 	{
 		float time = Time.deltaTime;
 		hate_timer_minus += time;
-		if (timer_flg) { // クリックされてる間
+        if (timer_flg) { // クリックされてる間
 			timer += time;
 			hate_timer += time;
 			if (timer > set_timer) {
@@ -151,15 +151,15 @@ public class Player : MonoBehaviour
 
 		//無敵時間の点滅処理
 		SwitchSprite();
-		
 
-		// 移動する向きを求める
-		//Vector2 direction = new Vector2 (x, y).normalized;
-		
-		// 移動する向きとスピードを代入する
-		//rigidbody2D.velocity = direction * speed;
 
-	}
+        // 移動する向きを求める
+        //Vector2 direction = new Vector2 (x, y).normalized;
+
+        // 移動する向きとスピードを代入する
+        //rigidbody2D.velocity = direction * speed;
+
+    }
 
 	// 当たり判定中
 	void OnTriggerStay2D (Collider2D collider) {
@@ -220,10 +220,10 @@ public class Player : MonoBehaviour
 //	戻り値	: N/A
 //-------------------------------
 	void move() {
-		Vector2 vec = new Vector2(0, 0);
+        Vector2 vec = new Vector2(0, 0);
 		Vector2 direction = new Vector2(0, 0);
 
-		if (Input.GetMouseButtonDown(0)) {		// 左クリックが押されたときの処理
+        if (Input.GetMouseButtonDown(0)) {		// 左クリックが押されたときの処理
 			mouse_pos = (Vector2)Input.mousePosition;// マウスの座標取得
 			GameObject.Find("test2").GetComponent<GUIText>().text = "マウス開始店" + mouse_pos;
 		}else if (Input.GetMouseButton(0)) {	// 左クリックされているときの処理
@@ -232,34 +232,70 @@ public class Player : MonoBehaviour
 			GameObject.Find("test3").GetComponent<GUIText>().text = "マウス現在点" + Input.mousePosition;
 			GameObject.Find("test3").GetComponent<GUIText>().text = "差" + direction;
 
+            // x+y=3 以下の時歩く処理
+            run = false;
+            if (System.Math.Abs(direction.x) >= 1.0f || System.Math.Abs(direction.y) >= 1.0f)
+            {//ちんげふらしが移動中の処理
+                _animator.SetBool("PLAYER_MOVE", true);
 
-			// x+y=3 以下の時歩く処理
+                if (System.Math.Abs(direction.x) > 1.0f)
+                {
+                    if (System.Math.Abs(direction.x) <= 9.0f)
+                    {
+                        vec.x = direction.x / System.Math.Abs(direction.x) * 2;
+                        set_timer = 1.0f;
+                    }
+                    else
+                    {
+                        vec.x = direction.x / System.Math.Abs(direction.x) * 7.0f;
+                        set_timer = 0.25f;
+                        run = true;
+                    }
+                }
+                if (System.Math.Abs(direction.y) > 1.0f)
+                {
+                    if (System.Math.Abs(direction.y) <= 9.0f)
+                    {
+                        vec.y = direction.y / System.Math.Abs(direction.y) * 2.0f;
+                        set_timer = 1.0f;
+                    }
+                    else
+                    {
+                        vec.y = direction.y / System.Math.Abs(direction.y) * 7.0f;
+                        set_timer = 0.25f;
+                        run = true;
+                    }
+                }
 
-
-			if (System.Math.Abs(direction.x) >= 1.0f || System.Math.Abs(direction.y) >= 1.0f) {
-				if (System.Math.Abs(direction.x) > 1.0f) {
-					if (System.Math.Abs(direction.x) <= 10.0f) {
-						vec.x = direction.x / System.Math.Abs(direction.x) * 2;
-						set_timer = 1.0f;
-						run = false;
-					} else {
-						vec.x = direction.x / System.Math.Abs(direction.x) * 7.0f;
-						set_timer = 0.25f;
-						run = true;
-					}
-				}
-				if (System.Math.Abs(direction.y) > 1.0f) {
-					if (System.Math.Abs(direction.y) <= 10.0f) {
-						vec.y = direction.y / System.Math.Abs(direction.y) * 2.0f;
-						set_timer = 1.0f;
-						run = false;
-					} else {
-						vec.y = direction.y / System.Math.Abs(direction.y) * 7.0f;
-						set_timer = 0.25f;
-						run = true;
-					}
-				}
+                //アニメーション（ブレンドツリー）用パラメータ   
+                if (System.Math.Abs(direction.x) <= System.Math.Abs(direction.y))//縦方向の移動量が大きいとき
+                {
+                    if (vec.y < 0)
+                    {
+                        _animator.SetFloat("Player_X", 0.0f);
+                        _animator.SetFloat("Player_Y", -1.0f);//下向き
+                    }
+                    else
+                    {
+                        _animator.SetFloat("Player_X", 0.0f);
+                        _animator.SetFloat("Player_Y", 1.0f);//上向き
+                    }
+                }
+                else
+                {
+                    if (vec.x < 0)
+                    {
+                        _animator.SetFloat("Player_X", -1.0f);//左向き
+                        _animator.SetFloat("Player_Y", 0.0f);
+                    }
+                    else
+                    {
+                        _animator.SetFloat("Player_X", 1.0f);//右向き
+                        _animator.SetFloat("Player_Y", 0.0f);
+                    }
+                }
             }
+
 			//}else if (/*System.Math.Abs(direction.x) <= 10.0f | System.Math.Abs(direction.y) <= 10.0f |*/
 			//	System.Math.Abs(direction.x) + System.Math.Abs(direction.y) <= 10.0f) {
 			//	if (System.Math.Abs(direction.x) > 3.0f)
@@ -270,17 +306,26 @@ public class Player : MonoBehaviour
 
 			//Debug.Log("移動速度"+direction);
 			GameObject.Find("test").GetComponent<GUIText>().text = "速度"+ vec;
-			timer_flg = true;
-		} else if (Input.GetMouseButtonUp(0)) {
+            timer_flg = true;
+
+        } else if (Input.GetMouseButtonUp(0)) {//キーを離したとき
 			timer_flg = false;
+            _animator.SetBool("PLAYER_MOVE", false);//停止中のアニメーションに遷移
 
-		} else { 
+        } else { //キーが押されていないとき
 			hate_timer = 0.0f;
-		}
+        }
 
-        //アニメーション（ブレンドツリー）用パラメータ   
-        _animator.SetFloat("Player_X", vec.x);
-        _animator.SetFloat("Player_Y", vec.y);
+
+        //歩行アニメーションのスピード調整
+        if (run == false)
+        {
+            _animator.speed = 0.5f;
+        }
+        else
+        {
+            _animator.speed = 1.0f;
+        }
 
         GetComponent<Rigidbody2D>().velocity = vec;
 		//Debug.Log(rigidbody2D.velocity);
