@@ -38,15 +38,25 @@ public class Player : MonoBehaviour
 	//無敵時間発動フラグ
 	public bool inv_flag = false;
 
+    //アニメーション
+    private Animator _animator;
 
-	void Start() {
+    void Start() {
 		manager	= GameObject.Find("Manager").GetComponent<Manager>();
 		// スコアのインスタンス
 		Score script = GameObject.Find("Score GUI").GetComponent<Score>();
 		run = false;
-		//direction = new Vector2(0, 0);
-		//vec = new Vector2(0, 0);
-	}
+        //direction = new Vector2(0, 0);
+        //vec = new Vector2(0, 0);
+
+        //アニメーターコンポーネント呼び出し
+        _animator = GetComponent<Animator>();
+
+        //モーション判定用のパラメータ   
+        _animator.SetFloat("Player_X", 0);
+        _animator.SetFloat("Player_Y", 0);
+
+    }
 	// Startメソッドをコルーチンとして呼び出す
 	//IEnumerator Start ()
 	//{
@@ -248,10 +258,8 @@ public class Player : MonoBehaviour
 						set_timer = 0.25f;
 						run = true;
 					}
-
-
 				}
-			}
+            }
 			//}else if (/*System.Math.Abs(direction.x) <= 10.0f | System.Math.Abs(direction.y) <= 10.0f |*/
 			//	System.Math.Abs(direction.x) + System.Math.Abs(direction.y) <= 10.0f) {
 			//	if (System.Math.Abs(direction.x) > 3.0f)
@@ -259,8 +267,6 @@ public class Player : MonoBehaviour
 			//	if (System.Math.Abs(direction.y) > 3.0f)
 			//		vec.y = direction.y / System.Math.Abs(direction.y) *2;
 			//} 
-
-
 
 			//Debug.Log("移動速度"+direction);
 			GameObject.Find("test").GetComponent<GUIText>().text = "速度"+ vec;
@@ -271,7 +277,12 @@ public class Player : MonoBehaviour
 		} else { 
 			hate_timer = 0.0f;
 		}
-		GetComponent<Rigidbody2D>().velocity = vec;
+
+        //アニメーション（ブレンドツリー）用パラメータ   
+        _animator.SetFloat("Player_X", vec.x);
+        _animator.SetFloat("Player_Y", vec.y);
+
+        GetComponent<Rigidbody2D>().velocity = vec;
 		//Debug.Log(rigidbody2D.velocity);
 
 	}

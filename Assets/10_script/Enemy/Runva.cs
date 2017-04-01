@@ -8,9 +8,21 @@ public class Runva : MonoBehaviour {
 	private int hit_num;
 
 	private Manager manager;
-	void Start() {
+
+    //アニメーション
+    private Animator _animator;
+
+    void Start() {
 		Initialize();
-	}
+
+        //アニメーターコンポーネント呼び出し
+        _animator = GetComponent<Animator>();
+
+        //モーション判定用のパラメータ   
+        _animator.SetFloat("Direction_X", vec.x);
+        _animator.SetFloat("Direction_Y", vec.y);
+
+    }
 
 	void Update() {
 
@@ -73,19 +85,20 @@ public class Runva : MonoBehaviour {
 	//------------------------------------------
 	private void Wall_Hit(Collider2D obj) {
 		hit_count++;
-		// WALL SIDE(L.R) is HIT ?
-		if (obj.gameObject.name == "Wall_R" || obj.gameObject.name == "Wall_L") {
+        // WALL SIDE(L.R) is HIT ?
+        if (obj.gameObject.name == "Wall_R" || obj.gameObject.name == "Wall_L") {
 			// 横速度反転
 			vec.x *= -1.0f;
 			Debug.Log(hit_count);
-			if (hit_count == hit_num) {
+            if (hit_count == hit_num) {
 				try {
 					GameObject[] kes = GameObject.FindGameObjectsWithTag("ke");
 
 					// 毛がルンバ上下どっちにあるか判定
 					if (kes[Runva_Hit(kes)].transform.position.y < transform.position.y) {
-						vec.y = -speed.y;	// 下がる
-					} else {
+						vec.y = -speed.y;   // 下がる
+                    }
+                    else {
 						vec.y = speed.y;	// 上がる
 					}
 				} catch { }
@@ -107,7 +120,11 @@ public class Runva : MonoBehaviour {
 				} catch { }
 				hit_count = 0;
 			}
-		}	
-	
-	}
+		}
+
+        //モーション判定用のパラメータ   
+        _animator.SetFloat("Direction_X", vec.x);
+        _animator.SetFloat("Direction_Y", vec.y);
+
+    }
 }
