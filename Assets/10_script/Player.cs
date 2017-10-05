@@ -3,49 +3,55 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-	// 移動スピード
-	public float speed = 0.0000005f;
-	
-	// PlayerBulletプレハブ
-	public GameObject ke;
-	Manager manager;
-	public Vector2 mouse_pos;// マウスの座標
-	//衝突相手の座標
-	public Vector2 hit_pos;
-	//public Vector2 direction;
-	//public Vector2 vec;
+    //-------------------------------
+    //	パブリック変数
+    //-------------------------------
 
-	private float timer = 0.0f;
-	private float hate_timer = 0.0f;
-	private float hate_timer_minus = 0.0f;
-	public float set_timer;
-	//点滅の間隔を保存する変数
-	private float interval_time = 0.0f;
-	//行動停止
-	private float stop_timer = 0.0f;
-	//吹き飛びセット時間
-	public float set_back_timer;
-	//行動停止時間
-	public float set_stop_timer;
-	//無敵時間
-	public float set_invincible_timer;
-	private bool timer_flg = false;
-	private bool run;
-	//トゲにあたった時のフラグ
-	private bool h_flag = false;
-	//ヒットフラグ発動フラグ
-	private bool h_flag2 = false;
-	//無敵時間発動フラグ
-	public bool inv_flag = false;
+    // 移動スピード
+    public float speed = 0.0000005f;
+
+    // PlayerBulletプレハブ
+    public GameObject ke;
+    Manager manager;
+    public Vector2 mouse_pos;// マウスの座標
+ 
+    public Vector2 hit_pos;//衝突相手の座標
+    //public Vector2 direction;
+    //public Vector2 vec;
+
+    private float timer = 0.0f;
+    private float hate_timer = 0.0f;
+    private float hate_timer_minus = 0.0f;
+    public float set_timer;
+    //点滅の間隔を保存する変数
+    private float interval_time = 0.0f;
+    //行動停止
+    private float stop_timer = 0.0f;
+    //吹き飛びセット時間
+    public float set_back_timer;
+    //行動停止時間
+    public float set_stop_timer;
+    //無敵時間
+    public float set_invincible_timer;
+    private bool timer_flg = false;
+    private bool run;
+    //トゲにあたった時のフラグ
+    private bool h_flag = false;
+    //ヒットフラグ発動フラグ
+    private bool h_flag2 = false;
+    //ヒットフラグ発動フラグ
+    private bool action_flag = false;
+    //無敵時間発動フラグ
+    public bool inv_flag = false;
 
     //アニメーション
     private Animator _animator;
 
     void Start() {
-		manager	= GameObject.Find("Manager").GetComponent<Manager>();
-		// スコアのインスタンス
-		Score script = GameObject.Find("Score GUI").GetComponent<Score>();
-		run = false;
+        manager = GameObject.Find("Manager").GetComponent<Manager>();
+        // スコアのインスタンス
+        Score script = GameObject.Find("Score GUI").GetComponent<Score>();
+        run = false;
         //direction = new Vector2(0, 0);
         //vec = new Vector2(0, 0);
 
@@ -57,100 +63,109 @@ public class Player : MonoBehaviour
         _animator.SetFloat("Player_Y", 0);
 
     }
-	// Startメソッドをコルーチンとして呼び出す
-	//IEnumerator Start ()
-	//{
-	//	// スコアのインスタンス
-	//	Score script = GameObject.Find("Score GUI").GetComponent<Score>();
-	//	while (true) {
-	//		// 弾をプレイヤーと同じ位置/角度で作成
-	//		Instantiate (ke, transform.position, transform.rotation);
+    // Startメソッドをコルーチンとして呼び出す
+    //IEnumerator Start ()
+    //{
+    //	// スコアのインスタンス
+    //	Score script = GameObject.Find("Score GUI").GetComponent<Score>();
+    //	while (true) {
+    //		// 弾をプレイヤーと同じ位置/角度で作成
+    //		Instantiate (ke, transform.position, transform.rotation);
 
-	//		yield return new WaitForSeconds (2f);
-	//	}
-	//}
-	
-	void Update ()
-	{
-		float time = Time.deltaTime;
-		hate_timer_minus += time;
+    //		yield return new WaitForSeconds (2f);
+    //	}
+    //}
+
+    void Update()
+    {
+        float time = Time.deltaTime;
+        hate_timer_minus += time;
         if (timer_flg) { // クリックされてる間
-			timer += time;
-			hate_timer += time;
-			if (timer > set_timer) {
-				// 処理
-				//if (rigidbody2D.velocity.x != 0 || rigidbody2D.velocity.y != 0) {
-					GameObject ChildObj = Instantiate(ke, transform.position, Quaternion.identity) as GameObject;
-					// 親オブジェクト設定
-					ChildObj.transform.parent = GameObject.Find("KE").transform;
+            timer += time;
+            hate_timer += time;
+            if (timer > set_timer) {
+                // 処理
+                //if (rigidbody2D.velocity.x != 0 || rigidbody2D.velocity.y != 0) {
+                GameObject ChildObj = Instantiate(ke, transform.position, Quaternion.identity) as GameObject;
+                // 親オブジェクト設定
+                ChildObj.transform.parent = GameObject.Find("KE").transform;
 
-				//}
-				timer = 0;
-			}
-		}else if (hate_timer_minus > manager.Get_Hate_Time()) {
-				manager.Hate_calk_minus();	// ヘイトをマイナス
-				hate_timer_minus = 0.0f;
-		}
-		// 右・左
-		//float x = Input.GetAxisRaw ("Horizontal");
-	
-		// 上・下
-		//float y = Input.GetAxisRaw ("Vertical");
+                //}
+                timer = 0;
+            }
+        } else if (hate_timer_minus > manager.Get_Hate_Time()) {
+            manager.Hate_calk_minus();  // ヘイトをマイナス
+            hate_timer_minus = 0.0f;
+        }
+        // 右・左
+        //float x = Input.GetAxisRaw ("Horizontal");
+
+        // 上・下
+        //float y = Input.GetAxisRaw ("Vertical");
+
+        //アクション用のオブジェにあたったとき
+        if (action_flag == true)
+        {
+            Debug.Log("アクションフロー");
+            action();
+        }
+        //トラップにあたっていないとき
+        else if (h_flag == false)
+        {
+            //移動処理
+            move();
+            if (Input.GetMouseButtonDown(0))
+            {
+                //Debug.Log("マウス座標" + Input.mousePosition);
+            }
+            //トラップにあたったとき
+        } else if (h_flag == true) {
+            timer_flg = false;
+            //ノックバック
+            if (stop_timer < set_back_timer)
+            {
+                if (h_flag2 == true) {
+                    //ノックバック処理関数
+                    HitBack();
+                    h_flag2 = false;
+                }
+                stop_timer += time;
+                GameObject.Find("test5").GetComponent<GUIText>().text = "ヒットバック";
+                //停止時間	
+            } else if (stop_timer < set_stop_timer) {
+                //移動停止
+                GameObject.Find("test5").GetComponent<GUIText>().text = "停止時間";
+                StopMove();
+                stop_timer += time;
+                //無敵時間
+            } else if (stop_timer < set_invincible_timer) {
+                //無敵時間の移動
+                move();
+                if (Input.GetMouseButtonDown(0)) {
+                    //Debug.Log("マウス座標" + Input.mousePosition);
+                }
+
+                stop_timer += time;
+                GameObject.Find("test5").GetComponent<GUIText>().text = "無敵時間";
 
 
+                //無敵終了
+            } else {
+                h_flag = false;
+                inv_flag = false;
+                stop_timer = 0.0f;
+                GameObject.Find("test5").GetComponent<GUIText>().text = "通常";
+                gameObject.GetComponent<Renderer>().enabled = true;
+            }
 
-		//トラップにあたっていないとき
-		if (h_flag == false)
-		{
-			//移動処理
-			move();
-			if (Input.GetMouseButtonDown(0))
-			{
-				//Debug.Log("マウス座標" + Input.mousePosition);
-			}
-		//トラップにあたったとき
-		}else{
-			timer_flg = false;
-			//ノックバック
-			if (stop_timer < set_back_timer)
-			{
-				if (h_flag2 == true) {
-					//ノックバック処理関数
-					HitBack();
-					h_flag2 = false;
-				}	
-				stop_timer += time;
-				GameObject.Find("test5").GetComponent<GUIText>().text = "ヒットバック";
-			//停止時間	
-			}else if(stop_timer <  set_stop_timer){
-				//移動停止
-				GameObject.Find("test5").GetComponent<GUIText>().text = "停止時間";
-				StopMove();
-				stop_timer += time;
-			//無敵時間
-			}else if(stop_timer < set_invincible_timer){
-				//無敵時間の移動
-				move();
-				if (Input.GetMouseButtonDown(0)) {
-					//Debug.Log("マウス座標" + Input.mousePosition);
-				}
-				
-				stop_timer += time;
-				GameObject.Find("test5").GetComponent<GUIText>().text = "無敵時間";
-				
-				
-			//無敵終了
-			}else{
-				h_flag = false;
-				inv_flag = false;
-				stop_timer = 0.0f;
-				GameObject.Find("test5").GetComponent<GUIText>().text = "通常";
-				gameObject.GetComponent<Renderer>().enabled = true;
-			}
-		}
+            //予期せぬエラーが起きた時
+        }
+        else {
+            Debug.Log("エラー：トラップフローの失敗　0003");
+        }
 
-		//無敵時間の点滅処理
-		SwitchSprite();
+                //無敵時間の点滅処理
+        SwitchSprite();
 
 
         // 移動する向きを求める
@@ -161,65 +176,89 @@ public class Player : MonoBehaviour
 
     }
 
-	// 当たり判定中
-	void OnTriggerStay2D (Collider2D collider) {
-		// 床のあたり判定処理
-		if(collider.gameObject.tag == "floor"){
-			//if (rigidbody2D.velocity.x != 0) {
-				if (hate_timer > manager.Get_Hate_Time()) {
-					manager.Hate_calk_plus();
-					hate_timer = 0.0f;
-				}
-			//} else { 
-			//	if (hate_timer > manager.Get_Hate_Time()) {
-			//		manager.Hate_calk_minus();
-			//		hate_timer = 0.0f;
-			//	}
-			//}
+    // 当たり判定中・あたり判定が重なっている時の処理
+    void OnTriggerStay2D(Collider2D collider) {
+        // 床のあたり判定処理
+        if (collider.gameObject.tag == "floor") {
+            //if (rigidbody2D.velocity.x != 0) {
+            if (hate_timer > manager.Get_Hate_Time()) {
+                manager.Hate_calk_plus();
+                hate_timer = 0.0f;
+            }
+            //} else { 
+            //	if (hate_timer > manager.Get_Hate_Time()) {
+            //		manager.Hate_calk_minus();
+            //		hate_timer = 0.0f;
+            //	}
+            //}
 
-		// 壁のあたり判定処理
-		} else if (collider.gameObject.tag == "Wall") {
-			//if (collider.gameObject.name == "Wall_R") {
-			//	Vector2 pos = transform.position;
-			//	transform.position = new Vector2(pos.x - 0.5f, pos.y);
+            // 壁のあたり判定処理
+        } else if (collider.gameObject.tag == "Wall") {
+            //if (collider.gameObject.name == "Wall_R") {
+            //	Vector2 pos = transform.position;
+            //	transform.position = new Vector2(pos.x - 0.5f, pos.y);
 
-			//} else if (collider.gameObject.name == "Wall_L"){
-			//	Vector2 pos = transform.position;
-			//	transform.position = new Vector2(pos.x + 0.5f, pos.y);
-			
-			//} else if (collider.gameObject.name == "Wall_U"){
-			//	Vector2 pos = transform.position;
-			//	transform.position = new Vector2(pos.x, pos.y - 0.5f);
+            //} else if (collider.gameObject.name == "Wall_L"){
+            //	Vector2 pos = transform.position;
+            //	transform.position = new Vector2(pos.x + 0.5f, pos.y);
 
-			//} else if (collider.gameObject.name == "Wall_D") { 
-			//	Vector2 pos = transform.position;
-			//	transform.position = new Vector2(pos.x, pos.y + 0.5f);			
-			//}
+            //} else if (collider.gameObject.name == "Wall_U"){
+            //	Vector2 pos = transform.position;
+            //	transform.position = new Vector2(pos.x, pos.y - 0.5f);
 
-		//トラップの当たり判定処理
-		} else if(collider.gameObject.tag == "Trap"){
-			// スコアのインスタンス
-			Trap trap = GameObject.Find("Trap").GetComponent<Trap>();
+            //} else if (collider.gameObject.name == "Wall_D") { 
+            //	Vector2 pos = transform.position;
+            //	transform.position = new Vector2(pos.x, pos.y + 0.5f);			
+            //}
 
-			//トラップにあたったフラグ
-			if (trap.flag == true)
-			{
-				if (h_flag == false) {
-					h_flag2 = true;
-				}
-				h_flag = true;
-				hit_pos = collider.gameObject.transform.position;
-			}
-		}
+            Debug.Log("Wall");
 
-	}
-//-------------------------------
-//	名前	: move()
-//	処理	: 移動処理
-//	引数	: N/A
-//	戻り値	: N/A
-//-------------------------------
-	void move() {
+            //トラップの当たり判定処理
+        } else if (collider.gameObject.tag == "Trap") {
+            // スコアのインスタンス
+            Trap trap = GameObject.Find("Trap").GetComponent<Trap>();
+
+            //トラップにあたったフラグ
+            if (trap.flag == true)
+            {
+                if (h_flag == false) {
+                    h_flag2 = true;
+                }
+                h_flag = true;
+                hit_pos = collider.gameObject.transform.position;
+            }
+
+            //何かにあたっているのにフラグがないとき
+        }
+        else {
+            Debug.Log("エラー：フラグがありません　0002");
+        }
+
+    }
+
+    //プレイヤーが何かにぶつかった瞬間の処理
+    void OnCollisionEnter2D(Collision2D collider)
+    {
+        //アクション用オブジェの接触判定処理    【デバッグ中】
+        if (collider.gameObject.tag == "Action")
+        {
+            //トラップにあたっていないとき処理続行（バグ回避のための処理）
+            if (h_flag == false)
+            {
+                action_flag = true;
+                Debug.Log("ACTION_Enter");//Updateないではデバッグログは最初の1回目しか表示されないため注意。カウントは増えていく
+                hit_pos = collider.gameObject.transform.position;//衝突したオブジェクトの座標を取得
+            }
+        }
+    }
+ 
+    //-------------------------------
+    //	名前	: move()
+    //	処理	: 移動処理
+    //	引数	: N/A
+    //	戻り値	: N/A
+    //-------------------------------
+    void move() {
         Vector2 vec = new Vector2(0, 0);
 		Vector2 direction = new Vector2(0, 0);
 
@@ -331,14 +370,33 @@ public class Player : MonoBehaviour
 		//Debug.Log(rigidbody2D.velocity);
 
 	}
+//-------------------------------
+//	名前	: action()
+//	処理	: 家具に接触した時のリズムゲーム・モード処理【デバッグ中】
+//	引数	: N/A
+//	戻り値	: N/A
+//-------------------------------
+    void action()
+    {
+        StopMove();
+        Debug.Log("ACTION");
+        //Invoke("test", 1f);//デバッグ用：1秒停止後にtest();を実行
 
+        GetComponent<Rigidbody2D>().position = hit_pos;//【デバッグ】あたったオブジェクトの位置にプレイヤーを瞬間移動
+        //action_flag = false;
+    }
+    void test()//デバッグ用：action_flagを解除
+    {
+        action_flag = false;
+        Debug.Log("TEST");
+    }
 //-------------------------------
 //	名前	: HitBack()
 //	処理	: トラップとの衝突時のノックバック処理
 //	引数	: N/A
 //	戻り値	: N/A
 //-------------------------------
-	void HitBack(){
+   void HitBack(){
 		Vector2 vec = new Vector2(0, 0);
 		//反発係数
 		float i = 15.0f;

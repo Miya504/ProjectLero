@@ -14,7 +14,7 @@ public class Trap : MonoBehaviour {
 		player = GameObject.Find("Player").GetComponent<Player>();
 	}
 	
-	// Update is called once per frame
+	// トゲのアニメーション
 	void Update () {
 		timer += Time.deltaTime;
 		if (timer > trap_time) {
@@ -22,13 +22,14 @@ public class Trap : MonoBehaviour {
 			timer = 0.0f;
 		}
 		if (flag == true) {
-			transform.FindChild("toge").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("toge");
+			transform.Find("toge").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("toge");
 		} else { 
-			transform.FindChild("toge").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("togeana");
+			transform.Find("toge").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("togeana");
 		}
 
 	}
 
+    //プレイヤーと接触時
 	void OnTriggerStay2D(Collider2D collider) {
 		//Player player = GameObject.Find("Player").GetComponent<Player>();
 		if (collider.gameObject.tag == "Player"){
