@@ -12,6 +12,7 @@ public class GameOver : MonoBehaviour {
 	void Update () {
 		if (Input.GetKey(KeyCode.Space)) {
 			Application.LoadLevel("prote1");
+
 		}
 	}
 }
